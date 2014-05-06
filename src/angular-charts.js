@@ -185,6 +185,7 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
        * @type {Object}
        */
       var margin = {top: 0, right: 20, bottom: 30, left: 40};
+          margin = angular.extend(margin, config.margin);
           width -=  margin.left + margin.right;
           height -= margin.top + margin.bottom;
 
@@ -237,6 +238,12 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
           .ticks(10)
           .tickFormat(d3.format('s'));
 
+      if (config.configureSVG) {
+        config.configureSVG({
+          yAxis: yAxis
+        });
+      }
+
       /**
        * Start drawing the chart!
        * @type {[type]}
@@ -280,7 +287,14 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
         .ease("cubic-in-out")
         .duration(1000)
         .attr("y", function(d) { return y(Math.max(0, d.y)); })
-        .attr("height", function(d) { return Math.abs(y(d.y) - y(0)); });  
+        .attr("height", function(d) { return Math.abs(y(d.y) - y(0)); })
+        .each('end', function() {
+          if (config.renderBar) {
+            config.renderBar(this);
+          }
+        })
+      ;
+
       /**
        * Add events for tooltip
        * @param  {[type]} d [description]
@@ -325,6 +339,10 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
         .attr("y1", y(0))
         .attr("y2", y(0))
         .style("stroke", "silver");
+
+      if (config.renderSVG) {
+        config.renderSVG(svg);
+      }
     }
 
     /**
