@@ -61,7 +61,6 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
       lineLegend: 'lineEnd', // Only on line Charts
     };
 
-    var totalWidth = element.width(), totalHeight = element.height();
     var data, 
     series, 
     points, 
@@ -73,9 +72,13 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
     isAnimate =true,
     defaultColors = config.colors;
 
-    if(totalHeight === 0 || totalWidth === 0) {
-      throw new Error('Please set height and width for the chart element')
-    }
+    // TODO Has to be handled more intelligently, as the dimensions may be
+    // data-bound.
+    //var totalWidth = element.width(), totalHeight = element.height();
+    //if(totalHeight === 0 || totalWidth === 0) {
+    //  throw new Error('Please set height and width for the chart element')
+    //}
+
     /**
      * All the magic happens here
      * handles extracting chart type
@@ -98,6 +101,8 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
      * used for setting radius, bar width of chart
      */
     function setHeightWidth() {
+      var totalWidth = element.width(), totalHeight = element.height();
+
       if(!config.legend.display) {
         height = totalHeight;
         width = totalWidth;
