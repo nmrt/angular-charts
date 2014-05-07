@@ -72,6 +72,9 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
     isAnimate =true,
     defaultColors = config.colors;
 
+    var totalWidth = 0;
+    var totalHeight = 0;
+
     // TODO Has to be handled more intelligently, as the dimensions may be
     // data-bound.
     //var totalWidth = element.width(), totalHeight = element.height();
@@ -101,7 +104,8 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
      * used for setting radius, bar width of chart
      */
     function setHeightWidth() {
-      var totalWidth = element.width(), totalHeight = element.height();
+      totalWidth = element.width();
+      totalHeight = element.height();
 
       if(!config.legend.display) {
         height = totalHeight;
